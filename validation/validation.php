@@ -89,7 +89,7 @@
 
        function is_required(array $data, string $field)
         {
-            return isset($data[$field]) && (trim($data[$field]) !== '');
+            return isset($data[$field]) && trim($data[$field]) !== '';
         }
 
         function is_email(array $data, string $field)

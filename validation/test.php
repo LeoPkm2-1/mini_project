@@ -2,7 +2,7 @@
     require __DIR__ . '/validation.php';
     $data = [
         'firstname' => '',
-        'lastname' => '',
+        'lastname' => '           ',
         'username' => 'bob',
         'address' => 'This is my address',
         'zipcode' => '999',
