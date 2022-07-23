@@ -6,14 +6,14 @@
         'username' => 'bob',
         'address' => 'This is my address',
         'zipcode' => '999',
-        'email' => 'jo@',
+        'email' => 'bob1@phptutorial.net',
         'password' => 'test123',
-        'password2' => 'test',
+        'password2' => 'test123',
     ];
     
     $fields = [
-        'firstname' => 'required | min:1,max:255',
-        'lastname' => 'required, max: 255',
+        'firstname' => 'required | max:255',
+        'lastname' => 'required | max: 255',
         'address' => 'required | min: 10, max:255',
         'zipcode' => 'between: 5,6',
         'username' => 'required | alphanumeric | between: 3,255 | unique: users,username',

@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/config/database.php';
+require __DIR__ . '/../config/database.php';
 
 const DEFAULT_VALIDATION_ERRORS = [
     'required' => 'Please enter the %s',

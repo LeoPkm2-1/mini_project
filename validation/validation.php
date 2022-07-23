@@ -1,6 +1,7 @@
 <?php
     // library validation ================================================
 
+    require_once __DIR__ .'/config/database.php';
     // field in input form has require some (one or more) validation rules
     /**
      * ex: username is required , between 3-20 character, alphanumeric
@@ -159,4 +160,50 @@
         
             $pattern = "#.*^(?=.{8,64})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$#";
             return preg_match($pattern, $data[$field]);
+        }
+
+        /**
+         * Connect to the database and returns an instance of PDO class
+         * or false if the connection fails
+         *
+         * @return PDO
+         */
+        function db(): PDO
+        {
+            static $pdo;
+            // if the connection is not initialized
+            // connect to the database
+            if (!$pdo) {
+                return new PDO(
+                    sprintf("mysql:host=%s;dbname=%s;charset=UTF8", DB_HOST, DB_NAME),
+                    DB_USER,
+                    DB_PASSWORD,
+                    [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+                );
+            }
+            return $pdo;
+        }    
+
+        /**
+         * Return true if the $value is unique in the column of a table
+         * @param array $data
+         * @param string $field
+         * @param string $table
+         * @param string $column
+         * @return bool
+         */
+        function is_unique(array $data, string $field, string $table, string $column): bool
+        {
+            if (!isset($data[$field])) {
+                return true;
+            }
+
+            $sql = "SELECT $column FROM $table WHERE $column = :value";
+
+            $stmt = db()->prepare($sql);
+            $stmt->bindValue(":value", $data[$field]);
+
+            $stmt->execute();
+
+            return $stmt->fetchColumn() === false;
         }        
