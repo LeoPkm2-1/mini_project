@@ -1,9 +1,4 @@
 <?php
-    // ===================== Sanitization library===============
-
-    /**
-     * FILTERS: contain rules and its corresponding filters.
-     */
     const FILTERS = [
         'string' => FILTER_SANITIZE_STRING,
         'string[]' => [
@@ -31,11 +26,12 @@
     ];
 
     /**
-    * array_trim: Recursively trim strings in an array
-    * @param array $items: array of items to trim.
+    * Recursively trim strings in an array
+    * @param array $items
     * @return array
     */
-    function array_trim(array $items){
+    function array_trim(array $items): array
+    {
         return array_map(function ($item) {
             if (is_string($item)) {
                 return trim($item);
@@ -48,22 +44,17 @@
 
     /**
     * Sanitize the inputs based on the rules an optionally trim the string
-    * @param (array) $inputs:iput data to sanitize.
-    * @param (array) $fields: containing rules of each field.
-    * @param (int) $default_filter FILTER_SANITIZE_STRING: if $fields is not set, all fields in $input is sanitize with filter default.
-    * @param (array) $filters FILTERS: it contain rules and corresponding filter.
-    * @param (bool) $trim: help to trim string.
+    * @param array $inputs
+    * @param array $fields
+    * @param int $default_filter FILTER_SANITIZE_STRING
+    * @param array $filters FILTERS
+    * @param bool $trim
     * @return array
     */
     function sanitize(array $inputs, array $fields = [], int $default_filter = FILTER_SANITIZE_STRING, array $filters = FILTERS, bool $trim = true): array
     {
         if ($fields) {
-            $options = array_map(
-                function($field) use($filters) {
-                    return  $filters[$field];
-                }
-                , $fields
-            );
+            $options = array_map(fn($field) => $filters[$field], $fields);
             $data = filter_var_array($inputs, $options);
         } else {
             $data = filter_var_array($inputs, $default_filter);
